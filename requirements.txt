@@ -1,2 +1,3 @@
-eve
+eve<0.8
 eve-sqlalchemy
+psycopg2-binary
