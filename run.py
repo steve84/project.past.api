@@ -2,12 +2,18 @@ from eve import Eve
 from eve_sqlalchemy import SQL
 from eve_sqlalchemy.validation import ValidatorSQL
 from model import Base, Exchange
+from project_past.views import order_routes
 
 app = Eve(validator=ValidatorSQL, data=SQL)
+
+app.register_blueprint(order_routes, url_prefix='/order')
+
 db = app.data.driver
 Base.metadata.bind = db.engine
 db.Model = Base
 db.create_all()
+
+
 
 
 if not db.session.query(Exchange).count():
