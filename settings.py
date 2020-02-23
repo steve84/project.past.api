@@ -1,5 +1,6 @@
 from eve_sqlalchemy.config import DomainConfig, ResourceConfig
-from model import Exchange, Order
+
+from project_past.models import Currency, Exchange, Order, OrderHistory, OrderType, User
 
 DEBUG = True
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/project_past'
@@ -15,8 +16,12 @@ RESOURCE_METHODS = ['GET', 'POST']
 
 # The default schema is generated using DomainConfig:
 DOMAIN = DomainConfig({
+    'currency': ResourceConfig(Currency),
     'exchange': ResourceConfig(Exchange),
-    'order': ResourceConfig(Order)
+    'order': ResourceConfig(Order),
+    'order_history': ResourceConfig(OrderHistory),
+    'order_type': ResourceConfig(OrderType),
+    'user': ResourceConfig(User),
 }).render()
 
 RENDERERS = [

@@ -3,6 +3,7 @@ from eve_sqlalchemy import SQL
 from eve_sqlalchemy.validation import ValidatorSQL
 from model import Base, Exchange
 from project_past.views import order_routes
+from project_past.models import Base, Exchange
 
 app = Eve(validator=ValidatorSQL, data=SQL)
 
