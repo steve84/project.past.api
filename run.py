@@ -1,26 +1,27 @@
-from eve import Eve
-from eve_sqlalchemy import SQL
-from eve_sqlalchemy.validation import ValidatorSQL
-from model import Base, Exchange
-from project_past.views import order_routes
-from project_past.models import Base, Exchange
+from project_past import create_app
+from project_past.models import Currency, Exchange, Order, OrderType, User
 
-app = Eve(validator=ValidatorSQL, data=SQL)
 
-app.register_blueprint(order_routes, url_prefix='/order')
-
+app = create_app()
 db = app.data.driver
-Base.metadata.bind = db.engine
-db.Model = Base
-db.create_all()
 
-
-
-
-if not db.session.query(Exchange).count():
+if not db.session.query(Order).count():
+    user = User(name='Bob', username='bob', password='1234')
+    currency = Currency(name='BTCUSD', crypto_currency='BTC', forex_currency='USD')
+    exchange = Exchange(name='ByBit')
+    order_type1 = OrderType(name='Limit')
+    order_type2 = OrderType(name='Market')
     db.session.add_all([
-        Exchange(name='ByBit'),
-        Exchange(name='TestExchange')])
+            user,
+            currency,
+            exchange,
+            order_type1,
+            order_type2])
+    db.session.commit()
+    db.session.add(Order(
+            user_id=user.id, currency_id=currency.id,
+            order_type_id=order_type1.id, exchange_id=exchange.id,
+            buy=True, price=10.23, qty=100, hash='1234'))
     db.session.commit()
 
 

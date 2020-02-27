@@ -1,7 +1,6 @@
 from sqlalchemy import Column, DateTime, String, func
 from sqlalchemy.ext.declarative import declarative_base
 
-
 Base = declarative_base()
 
 class CommonColumns(Base):

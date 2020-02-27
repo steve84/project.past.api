@@ -23,8 +23,3 @@ DOMAIN = DomainConfig({
     'order_type': ResourceConfig(OrderType),
     'user': ResourceConfig(User),
 }).render()
-
-RENDERERS = [
-    'eve.render.JSONRenderer',
-    #'eve.render.XMLRenderer'
-]
