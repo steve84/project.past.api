@@ -23,3 +23,7 @@ DOMAIN = DomainConfig({
     'order_type': ResourceConfig(OrderType),
     'user': ResourceConfig(User),
 }).render()
+
+DOMAIN['exchange'].update({
+    'allowed_roles': ['admin']
+})
