@@ -43,7 +43,7 @@ class User(CommonColumns):
     def isAuthorized(self, role_names):
         """Checks if user is related to given role_names.
         """
-        if role_names in None or len(role_names) == 0:
+        if role_names is None or len(role_names) == 0:
             return True
         return self.role and self.role in role_names
 

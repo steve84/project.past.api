@@ -6,7 +6,7 @@ app = create_app()
 db = app.data.driver
 
 if not db.session.query(Order).count():
-    user = User(name='Bob', username='bob', password='1234')
+    user = User(name='Bob', username='bob', password='1234', role='admin')
     currency = Currency(name='BTCUSD', crypto_currency='BTC', forex_currency='USD')
     exchange = Exchange(name='ByBit')
     order_type1 = OrderType(name='Limit')
