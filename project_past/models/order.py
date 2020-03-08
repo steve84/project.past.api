@@ -1,3 +1,4 @@
+from uuid import uuid4
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, Float
 from sqlalchemy.orm import relationship
 
@@ -26,7 +27,13 @@ class Order(CommonColumns):
     buy = Column(Boolean(create_constraint=True, name='order_buy_boolean'))
     qty = Column(Integer)
     price = Column(Float)
-    hash = Column(String(80))
+    hash = Column(String(32))
+
+    @staticmethod
+    def insert_order_hook(items):
+        import pdb;pdb.set_trace()
+        for item in items:
+            item.hash = uuid4().hex
 
 
 class OrderHistory(CommonColumns):

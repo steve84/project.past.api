@@ -11,9 +11,9 @@ class RolesAuth(TokenAuth):
         """First we are verifying if the token is valid. Next
         we are checking if user is authorized for given roles.
         """
-        token = b64decode(token.split('Basic')[1])
+        token = b64decode(token)
         id = User.verify_auth_token(token)
-        if id and allowed_roles:
+        if id:
             user = app.data.driver.session.query(User).get(id)
             return user.isAuthorized(allowed_roles)
         else:

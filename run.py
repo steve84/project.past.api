@@ -18,12 +18,13 @@ if not db.session.query(Order).count():
             order_type1,
             order_type2])
     db.session.commit()
-    db.session.add(Order(
-            user_id=user.id, currency_id=currency.id,
-            order_type_id=order_type1.id, exchange_id=exchange.id,
-            buy=True, price=10.23, qty=100, hash='1234'))
+    for i in range(0,100):
+        db.session.add(Order(
+                user_id=user.id, currency_id=currency.id,
+                order_type_id=order_type1.id, exchange_id=exchange.id,
+                buy=True, price=i+0.23, qty=i, hash='1234'))
     db.session.commit()
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', debug=True, port=5000)
