@@ -6,6 +6,7 @@ DEBUG = True
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/project_past'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 RESOURCE_METHODS = ['GET', 'POST']
+ITEM_METHODS = ['GET', 'PUT', 'PATCH']
 
 # The following two lines will output the SQL statements executed by
 # SQLAlchemy. This is useful while debugging and in development, but is turned
@@ -23,6 +24,17 @@ DOMAIN = DomainConfig({
     'order_type': ResourceConfig(OrderType),
     'user': ResourceConfig(User),
 }).render()
+
+
+DOMAIN['user']['datasource'].update({
+    'projection': {'username': 1, 'name': 1}
+})
+
+DOMAIN['order']['schema']['user']['data_relation']['embeddable'] = True
+DOMAIN['order']['schema']['exchange']['data_relation']['embeddable'] = True
+DOMAIN['order']['schema']['currency']['data_relation']['embeddable'] = True
+DOMAIN['order']['schema']['order_type']['data_relation']['embeddable'] = True
+
 
 DOMAIN['order'].update({
     'allowed_roles': ['admin']
