@@ -15,8 +15,8 @@ class User(CommonColumns):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(80))
     username = Column(String(80), unique=True)
-    password = Column(String(80))
-    role = Column(String(80))
+    password = Column(String(80), nullable=False)
+    role = Column(String(80), nullable=False)
     
     def generate_auth_token(self, expiration=24*60*60):
         """Generates token for given expiration
@@ -76,3 +76,4 @@ class UserExchangeSetting(CommonColumns):
     user = relationship(User, uselist=False)
     exchange_id = Column(Integer, ForeignKey('exchange.id'))
     exchange = relationship(Exchange, uselist=False)
+    settings = Column(String(250))

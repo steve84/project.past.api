@@ -28,7 +28,7 @@ def addOrder():
         #req_to_exchange = requests.post('https://httpbin.org/get', params=params)
         #if req_to_exchange.status_code == requests.codes.ok and req_to_exchange.json()['ret_code'] == 0:
         #    OrderHistory(order_id=order.id, status='OK')
-        order_history = OrderHistory(order_id=order.id, status='OK')
+        order_history = OrderHistory.create_order_history_item(order, 'OK')
         db.session.add(order_history)
         db.session.commit()
         return 'add order %s' % request.json['order_id']

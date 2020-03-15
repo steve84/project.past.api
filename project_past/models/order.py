@@ -24,9 +24,9 @@ class Order(CommonColumns):
     exchange = relationship(Exchange, uselist=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User, uselist=False)
-    buy = Column(Boolean(create_constraint=True, name='order_buy_boolean'))
-    qty = Column(Integer)
-    price = Column(Float)
+    buy = Column(Boolean(create_constraint=True, name='order_buy_boolean'), nullable=False)
+    qty = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
     hash = Column(String(32))
 
     @staticmethod
@@ -38,6 +38,25 @@ class Order(CommonColumns):
 class OrderHistory(CommonColumns):
     __tablename__ = 'order_history'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_id = Column(Integer, ForeignKey('order.id'))
-    order = relationship(Order, uselist=False)
-    status = Column(String(80))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User, uselist=False)
+    order_type = Column(String(80), nullable=False)
+    currency = Column(String(80), nullable=False)
+    exchange = Column(String(80), nullable=False)
+    buy = Column(Boolean(create_constraint=True, name='order_history_buy_boolean'), nullable=False)
+    qty = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
+    status = Column(String(80), nullable=False)
+
+    @staticmethod
+    def create_order_history_item(order, status):
+        return OrderHistory(
+            user_id = order.user_id,
+            order_type = order.order_type.name,
+            currency = order.currency.name,
+            exchange = order.exchange.name,
+            buy = order.buy,
+            qty = order.qty,
+            price = order.price,
+            status = status
+        )
