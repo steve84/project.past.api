@@ -14,7 +14,7 @@ class User(CommonColumns):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(80))
-    username = Column(String(80))
+    username = Column(String(80), unique=True)
     password = Column(String(80))
     role = Column(String(80))
     

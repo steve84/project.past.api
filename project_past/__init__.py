@@ -5,10 +5,18 @@ from eve_sqlalchemy.validation import ValidatorSQL
 from project_past.models import Base, Order
 from project_past.utils import RolesAuth
 
+
+app = Eve(validator=ValidatorSQL, data=SQL, auth=RolesAuth)
+
+@app.after_request
+def modify_header(resp):
+    # Temporary fix to prevent basic auth popup
+    del resp.headers['WWW-Authenticate']
+    return resp
+
+
 def create_app():
     from . import views
-    #app = Eve(validator=ValidatorSQL, data=SQL, auth=RolesAuth)
-    app = Eve(validator=ValidatorSQL, data=SQL)
     db = app.data.driver
     Base.metadata.bind = db.engine
     db.Model = Base

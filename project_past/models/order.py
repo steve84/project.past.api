@@ -31,7 +31,6 @@ class Order(CommonColumns):
 
     @staticmethod
     def insert_order_hook(items):
-        import pdb;pdb.set_trace()
         for item in items:
             item['hash'] = uuid4().hex
 

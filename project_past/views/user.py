@@ -3,7 +3,7 @@ from base64 import b64encode
 
 from flask import Blueprint, request, jsonify, current_app as app
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.exceptions import Unauthorized
+from werkzeug.exceptions import Unauthorized, BadRequest
 
 from project_past.models import User
 from project_past.utils import get_signature
@@ -28,5 +28,27 @@ def login():
         user = app.data.driver.session.query(User).filter(User.username == username).first()
         if user and user.check_password(password):
             token = user.generate_auth_token()
-            return jsonify({'token': b64encode(token)})
+            return jsonify({'token': b64encode(token), 'username': user.username})
     raise Unauthorized('Wrong username and/or password.')
+
+
+@user_bp.route('/register', methods=['PUT'])
+def register():
+    """Simple register view.
+    """
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        raise BadRequest('Username and password required.')
+    else:
+        existingUser = app.data.driver.session.query(User).filter(User.username == username).first()
+        if existingUser is None:
+            app.data.driver.session.add(
+                User(name=username, username=username, password=password, role='user')
+            )
+            app.data.driver.session.commit()
+            return ''
+        else:
+            raise BadRequest('Username already in use.')
