@@ -6,7 +6,7 @@ DEBUG = True
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/project_past'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 RESOURCE_METHODS = ['GET', 'POST']
-ITEM_METHODS = ['GET', 'PUT', 'PATCH']
+ITEM_METHODS = ['GET', 'PUT', 'PATCH', 'DELETE']
 
 # The following two lines will output the SQL statements executed by
 # SQLAlchemy. This is useful while debugging and in development, but is turned

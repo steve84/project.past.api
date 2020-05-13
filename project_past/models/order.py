@@ -46,7 +46,7 @@ class OrderHistory(CommonColumns):
     buy = Column(Boolean(create_constraint=True, name='order_history_buy_boolean'), nullable=False)
     qty = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
-    status = Column(String(80), nullable=False)
+    status = Column(String(250), nullable=False)
 
     @staticmethod
     def create_order_history_item(order, status):

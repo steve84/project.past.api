@@ -14,7 +14,7 @@ def get_bybit_timestamp():
     if status_code == requests.codes.ok and return_code == 0 and 'time_now' in json_response:
         bybit_time = json_response['time_now']
         if bybit_time is not None and len(bybit_time.split('.')) == 2:
-            return int(bybit_time.split('.')[0])
+            return int(bybit_time.split('.')[0])*1000
         else:
             raise BadRequest('Unexpected ByBit server time request body.')
 
@@ -30,6 +30,9 @@ def setup_bybit_params(order):
         params['qty'] = order.qty
         params['price'] = order.price
         params['time_in_force'] = 'GoodTillCancel'
-        params['api_key'] = 'key'
+        # Public api key
+        params['api_key'] = 'XXX'
         params = dict(sorted(params.items()))
-        params['sign'] = get_signature('123', params)
+        # Private api key
+        params['sign'] = get_signature('YYY', params)
+        return params
